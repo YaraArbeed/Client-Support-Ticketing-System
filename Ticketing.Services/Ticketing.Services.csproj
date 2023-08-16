@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ticketing.DataAccess\Ticketing.DataAccess.csproj" />
+    <ProjectReference Include="..\Ticketing.Models\Ticketing.Models.csproj" />
+    <ProjectReference Include="..\Tickiting.Utility\Tickiting.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
