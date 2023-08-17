@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Services", "Ticke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.API", "Ticketing.API\Ticketing.API.csproj", "{A97CC1ED-B58E-41C1-9D1E-C513BFFD2709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tickiting.Utility", "Tickiting.Utility\Tickiting.Utility.csproj", "{87F31E56-15C9-4B5C-838B-3B1FB3A7FDED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tickiting.Utility", "Tickiting.Utility\Tickiting.Utility.csproj", "{87F31E56-15C9-4B5C-838B-3B1FB3A7FDED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

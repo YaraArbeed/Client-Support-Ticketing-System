@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ticketing.Models.PocoModels
 {
-    public class TicketResponse
+    public class TicketEditParam
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string Message { get; set; }
+        public string Description { get; set; }
+        public int ProductId { get; set; }
     }
 }

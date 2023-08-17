@@ -7,10 +7,7 @@ using Ticketing.Models.Models;
 
 namespace Repositories.Interface
 {
-    public interface ITicketRepository:IGenericRepository<Ticket>
+    public interface IProductRepository : IGenericRepository<Product>
     {
-        Task<IEnumerable<Ticket>> GetAllByIdAsync(int id);
-
-
     }
 }

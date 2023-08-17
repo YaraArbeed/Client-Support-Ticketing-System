@@ -39,6 +39,13 @@ namespace Repositories.Implementation
             _Context.Set<T>().Remove(entity);
             await _Context.SaveChangesAsync();
         }
+        public async Task<T> UpdateAsync(T entity)
+        {
+          _Context.Update(entity);
+            await _Context.SaveChangesAsync();
+            return entity;
+        }
+      
 
         public async Task<User> GetUserByUserNameAsync(string username)
         {

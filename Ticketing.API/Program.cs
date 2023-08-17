@@ -39,8 +39,12 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 //About Ticket Rpositry
 builder.Services.AddTransient<ITicketRepository, TicketRepository>();
+//About Product Rpositry
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 //About Ticket Service
 builder.Services.AddTransient<ITicketService, TicketService>();
+//About Product Service
+builder.Services.AddTransient<IProductService, ProductService>();
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 
@@ -88,6 +92,29 @@ using (var scope = app.Services.CreateScope())
         // Save changes to the UserType table
         dbContext.SaveChanges();
     }
+    //Insert Data into product tabel
+    if (!dbContext.Products.Any())
+    {
+        dbContext.Products.AddRange(
+        new Product { Name = "Avilo" }
+
+    );
+
+        // Save changes to the UserType table
+        dbContext.SaveChanges();
+    }
+    //Insert Data into Ticket tabel
+    if (!dbContext.Tickets.Any())
+    {
+        dbContext.Tickets.AddRange(
+        new Ticket { Title="Problem 1",Description="I can't use thsi product",Status=1,AssigneeId=23,ProductId=1,CustomerId=23,Attachments="picture"}
+       
+    );
+
+        // Save changes to the UserType table
+        dbContext.SaveChanges();
+    }
+
     // Insert data into User table
     var managerUserType = dbContext.UserTypes.FirstOrDefault(u => u.Name == "Manager");
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,11 @@ namespace Repositories.Interface
         Task DeleteAsync(T entity);
         Task<User> GetUserByUserNameAsync(string username);
         Task<User> GetUserByPasswordAsync(string password);
+        Task<T> UpdateAsync(T entity);
+
+      
+
+
 
     }
 }
