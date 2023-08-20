@@ -72,6 +72,15 @@ builder.Services.AddAuthentication(options =>
         };
 
     });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: builder.Configuration.GetValue<string>("Origins:OriginName"),
+                      policy =>
+                      {
+                          policy.WithOrigins( builder.Configuration.GetValue<string>("Origins:WebUrl")).AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
 
 //----------------------------Scribt-----------------------------------
 var app = builder.Build();
@@ -164,6 +173,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(builder.Configuration.GetValue<string>("Origins:OriginName"));
 
 app.UseAuthentication();
 app.UseAuthorization();
