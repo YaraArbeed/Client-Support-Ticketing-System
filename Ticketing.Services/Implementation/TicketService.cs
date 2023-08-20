@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Ticketing.BuisinessLayer.Implementation;
@@ -64,7 +65,7 @@ namespace Ticketing.Services.Implementation
             // Save the new Ticket to the repository
             await _TicketRepositry.AddAsync(newTicket);
 
-            return new TicketResponse { Message = "Ticket added successfully!" };
+            return new TicketResponse { Message = "Ticket added successfully!", Id = newTicket.Id };
 
 
         }
