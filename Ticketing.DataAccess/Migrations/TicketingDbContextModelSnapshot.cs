@@ -39,6 +39,23 @@ namespace Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Ticketing.Models.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+                });
+
             modelBuilder.Entity("Ticketing.Models.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -64,7 +81,7 @@ namespace Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("StateId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -78,6 +95,8 @@ namespace Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("StateId");
 
                     b.ToTable("Tickets");
                 });
@@ -189,11 +208,19 @@ namespace Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Ticketing.Models.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Assignee");
 
                     b.Navigation("Customer");
 
                     b.Navigation("Product");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("Ticketing.Models.Models.TicketComment", b =>

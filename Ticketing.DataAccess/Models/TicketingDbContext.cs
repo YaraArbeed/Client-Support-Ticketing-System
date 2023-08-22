@@ -24,6 +24,7 @@ namespace Ticketing.DataAccess.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<State> States { get; set; }
         public DbSet<TicketComment> TicketComments { get; set; }
     }
 }

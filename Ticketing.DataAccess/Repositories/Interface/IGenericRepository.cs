@@ -20,8 +20,9 @@ namespace Repositories.Interface
         Task<User> GetUserByUserNameAsync(string username);
         Task<User> GetUserByPasswordAsync(string password);
         Task<T> UpdateAsync(T entity);
+        Task SaveAsync();
 
-      
+
 
 
 

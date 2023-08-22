@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Repositories.Implementation;
 using Repositories.Interface;
 using System;
@@ -13,6 +14,13 @@ namespace Masegat.Repository.Implementation
     {
         public UserRepository(TicketingDbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<User>> GetTeamMembersAsync()
+        {
+            return await _Context.Set<User>()
+               .Where(user => user.RoleId == 3)
+        .ToListAsync();
         }
     }
 }
