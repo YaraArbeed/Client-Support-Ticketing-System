@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ticketing.Models.PocoModels
 {
-    public class TicketResponse
+    public class StatesResponse
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int AssigneeId { get; set; }
-        public string Message { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Ticketing.Models.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Status { get; set; }
+        public int StateId { get; set; }
         public int AssigneeId { get; set; }
         public int ProductId { get; set; }
         public int CustomerId { get; set; }
@@ -20,5 +20,7 @@ namespace Ticketing.Models.Models
         public User Assignee { get; set; }
         public Product Product { get; set; }
         public User Customer { get; set; }
+        public State State { get; set; }
+
     }
 }
