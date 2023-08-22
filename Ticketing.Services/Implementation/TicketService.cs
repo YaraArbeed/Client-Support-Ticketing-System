@@ -159,6 +159,8 @@ namespace Ticketing.Services.Implementation
             }
             // Update the ticket's assignee ID in the repository
             ticket.AssigneeId = user.Id;
+            ticket.StateId = 2;
+
             // Save changes to the database
             await _TicketRepositry.SaveAsync();
 
