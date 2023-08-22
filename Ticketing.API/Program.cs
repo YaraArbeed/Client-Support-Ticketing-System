@@ -41,6 +41,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITicketRepository, TicketRepository>();
 //About Product Rpositry
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+//About State Rpositry
+builder.Services.AddTransient<IStateRepository, StateRepository>();
+
 //About Ticket Service
 builder.Services.AddTransient<ITicketService, TicketService>();
 //About Product Service
@@ -108,22 +111,26 @@ using (var scope = app.Services.CreateScope())
         new Product { Name = "Avilo" }
 
     );
-
         // Save changes to the UserType table
         dbContext.SaveChanges();
     }
-    //Insert Data into Ticket tabel
-    if (!dbContext.Tickets.Any())
+    //Insert Data into State tabel
+    if (!dbContext.States.Any())
     {
-        dbContext.Tickets.AddRange(
-        new Ticket { Title="Problem 1",Description="I can't use thsi product",Status=1,AssigneeId=23,ProductId=1,CustomerId=23,Attachments="picture"}
-       
-    );
+        dbContext.States.AddRange(
+        new State { Name = "New" },
+        new State {Name="Approve"},
+        new State { Name = "To Do" },
+        new State { Name = "In Progress" },
+        new State { Name = "Done" },
+        new State { Name = "Closed" }
 
-        // Save changes to the UserType table
+
+    );
+        // Save changes to the State table
         dbContext.SaveChanges();
     }
-
+    
     // Insert data into User table
     var managerUserType = dbContext.UserTypes.FirstOrDefault(u => u.Name == "Manager");
 
@@ -159,6 +166,18 @@ using (var scope = app.Services.CreateScope())
         );
 
         // Save changes to the User table
+        dbContext.SaveChanges();
+    }
+    //Insert Data into Ticket tabel
+
+    if (!dbContext.Tickets.Any())
+    {
+        dbContext.Tickets.AddRange(
+        new Ticket { Title = "Problem 1", Description = "I can't use thsi product", StateId = 1, AssigneeId = 1, ProductId = 1, CustomerId = 1, Attachments = "picture" }
+
+    );
+
+        // Save changes to the UserType table
         dbContext.SaveChanges();
     }
 }

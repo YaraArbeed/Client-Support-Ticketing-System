@@ -44,5 +44,7 @@ namespace Ticketing.API.Controllers
             var ticket = await _TicketService.EditTicketAsync(id,Param);
             return Ok(ticket);
         }
+
+     
     }
 }
