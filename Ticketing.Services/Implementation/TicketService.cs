@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ticketing.BuisinessLayer.Implementation;
 using Ticketing.BuisinessLayer.Interface;
+using Ticketing.DataAccess.Models;
 using Ticketing.Models.Models;
 using Ticketing.Models.PocoModels;
 using Ticketing.Services.Interface;
@@ -22,7 +23,6 @@ namespace Ticketing.Services.Implementation
         private readonly ITicketRepository _TicketRepositry;
         private readonly IStateRepository _StateRepository;
         private readonly IUserRepository _UserRepository;
-
         public TicketService(ITicketRepository TicketRepositry, IStateRepository stateRepository, IUserRepository userRepository)
         {
             _TicketRepositry = TicketRepositry;
@@ -52,29 +52,25 @@ namespace Ticketing.Services.Implementation
             // Create a new Ticket object and populate its properties
             var newTicket = new Ticket
             {
-
                 Title = Param.Title,
                 Description = Param.Description,
-                StateId = Param.Status,
+                StateId = Param.StateId,
                 AssigneeId = Param.AssigneeId,
                 ProductId = Param.ProductId,
                 CustomerId = Param.CustomerId,
                 Attachments = Param.Attachments
-
-
             };
 
             // Save the new Ticket to the repository
             await _TicketRepositry.AddAsync(newTicket);
 
             return new TicketResponse { Message = "Ticket added successfully!", Id = newTicket.Id };
-
-
         }
 
         public async Task<Ticket> ViewTicketAsync(int id)
         {
-            Ticket ticket=await _TicketRepositry.GetByIdAsync(id);
+            Ticket ticket = await _TicketRepositry.ViewTickeAsync(id);
+
             if (ticket == null)
             {
                 var message = "No Ticket found for this Id";
@@ -86,15 +82,12 @@ namespace Ticketing.Services.Implementation
         public async Task<Ticket> EditTicketAsync(int id, TicketEditParam Param)
         {
             Ticket ticket = await _TicketRepositry.GetByIdAsync(id);
-
             if (ticket == null)
             {
                 var message = $"No ticket was found with ID: {id}";
                 ticket = new Ticket { Description = message };
                 return ticket;
             }
-            
-
             // Update the ticket entity with the properties from the ticketParam model
             ticket.Title = Param.Title;
             ticket.Description = Param.Description;
@@ -103,7 +96,6 @@ namespace Ticketing.Services.Implementation
            await _TicketRepositry.UpdateAsync(ticket);
             return ticket;
         }
-
         public async Task<IEnumerable<TicketResponse>> GetTicketListAsync()
         {
             IEnumerable<Ticket> tickets = await _TicketRepositry.GetAllAsync();
@@ -115,7 +107,35 @@ namespace Ticketing.Services.Implementation
             return tickets.Select(Ticket => new TicketResponse { Id = Ticket.Id, Title = Ticket.Title, AssigneeId = Ticket.AssigneeId });
         }
 
-        public async Task<IEnumerable<StatesResponse>> GetStatusListAsync()
+        public async Task<IEnumerable<TicketResponse>> GetSupportTeamTicketListAsync(int id)
+        {
+            User user = await _UserRepository.GetByIdAsync(id);
+
+            if (user == null || user.RoleId != 3)
+            {
+                return new List<TicketResponse> { new TicketResponse { Message = "Only Team Members " } };
+            }
+            IEnumerable<Ticket> tickets = await _TicketRepositry.GetAllAsync();
+
+            if (tickets.Count() == 0)
+            {
+                return new List<TicketResponse> { new TicketResponse { Message = "There are no Tickets" } };
+            }
+
+            IEnumerable<TicketResponse> ticketResponses = tickets.Where(ticket => ticket.AssigneeId== user.Id)
+                .Select(ticket => new TicketResponse
+                {
+                    Id = ticket.Id,
+                    Title = ticket.Title,
+                    AssigneeId = ticket.AssigneeId
+                });
+            if (!ticketResponses.Any())
+            {
+                return new List<TicketResponse> { new TicketResponse { Message = "No Tickets Assigned to the This Team Member" } };
+            }
+            return ticketResponses;
+        }
+            public async Task<IEnumerable<StatesResponse>> GetStatusListAsync()
         {
             IEnumerable<State> states = await _StateRepository.GetAllAsync();
 
@@ -134,10 +154,10 @@ namespace Ticketing.Services.Implementation
             return users.Select(User => new UserResponse { Id = User.Id,RoleId=User.RoleId, UserName = User.UserName,MobileNumber=User.MobileNumber,Email=User.Email });
         }
 
-        public async Task<bool> EditTicketManagerAsync(int userId, int ticketId)
+        public async Task<bool> EditTicketManagerAsync(int asigneeId, int ticketId,int statusId)
         {
             // Retrieve the user from the repository by ID
-            var user = await _UserRepository.GetByIdAsync(userId);
+            var user = await _UserRepository.GetByIdAsync(asigneeId);
             if (user == null)
             {
                 return false;
@@ -159,7 +179,7 @@ namespace Ticketing.Services.Implementation
             }
             // Update the ticket's assignee ID in the repository
             ticket.AssigneeId = user.Id;
-            ticket.StateId = 2;
+            ticket.StateId = statusId;
 
             // Save changes to the database
             await _TicketRepositry.SaveAsync();
@@ -167,6 +187,25 @@ namespace Ticketing.Services.Implementation
             return true;
         }
 
+        public async Task<Ticket> EditTicketTeamMemberAsync(int id, TicketEditTeamMemberParam param)
+        {
+            Ticket ticket = await _TicketRepositry.GetByIdAsync(id);
 
+            if (ticket == null)
+            {
+                var message = $"No ticket was found with ID: {id}";
+                ticket = new Ticket { Description = message };
+                return ticket;
+            }
+
+            // Update the ticket entity with the properties from the ticketParam model
+            ticket.Title = param.Title;
+            ticket.Description = param.Description;
+            ticket.ProductId = param.ProductId;
+            ticket.StateId=param.StateId;
+
+            await _TicketRepositry.UpdateAsync(ticket);
+            return ticket;
+        }
     }
 }

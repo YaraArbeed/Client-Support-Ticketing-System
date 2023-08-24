@@ -5,6 +5,7 @@ using Ticketing.Services.Interface;
 
 namespace Ticketing.API.Controllers
 {
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -13,7 +14,11 @@ namespace Ticketing.API.Controllers
         {
             _userService = userService;
         }
-
+        /// <summary>
+        /// Access the system by providing user credentials:UserName or Email or MobileNumber ,and Password
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] SignInParam param)
         {
@@ -27,6 +32,11 @@ namespace Ticketing.API.Controllers
             return Ok(token);
         }
 
+        /// <summary>
+        /// Create a new user account by filling the registration form
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationParam param)
         {

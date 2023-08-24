@@ -3,6 +3,7 @@ using Ticketing.Services.Interface;
 
 namespace Ticketing.API.Controllers
 {
+    [Route("api/[controller]")]
     public class ManagerController : ControllerBase
     {
         private readonly ITicketService _TicketService;
@@ -12,14 +13,23 @@ namespace Ticketing.API.Controllers
             _TicketService = TicketService;
         }
 
-        [HttpGet("Get all Tickets")]
+        /// <summary>
+        /// Retrieve all tickets
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetTicketList")]
         public async Task<IActionResult> GetTicketList()
         {
             var TicketResponses = await _TicketService.GetTicketListAsync();
 
             return Ok(TicketResponses);
         }
-        [HttpGet("Get all Statues")]
+
+        /// <summary>
+        /// Retrieve all Statues
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetStatues")]
         public async Task<IActionResult> GetStatusList()
         {
             var TicketResponses = await _TicketService.GetStatusListAsync();
@@ -27,17 +37,27 @@ namespace Ticketing.API.Controllers
             return Ok(TicketResponses);
         }
 
-        [HttpGet("Get all users of type Team Member")]
+        /// <summary>
+        /// Retrieve all users of type 'Team Member'
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetTeamMembers/{id}")]
         public async Task<IActionResult> GetTeamMemberList()
         {
             var UserResponses = await _TicketService.GetTeamMemberListAsync();
 
             return Ok(UserResponses);
         }
-        [HttpPost("Edit Ticket")]
-        public async Task<IActionResult> EditTicketManager(int userId, int ticketId)
+        /// <summary>
+        /// Assign a specific ticket to a team member
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="ticketId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> EditTicketManager(int asigneeId, int ticketId, int statusId)
         {
-            var ticket = await _TicketService.EditTicketManagerAsync(userId, ticketId);
+            var ticket = await _TicketService.EditTicketManagerAsync(asigneeId, ticketId, statusId);
 
             if (!ticket)
             {

@@ -2,9 +2,12 @@ using Masegat.Repository.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Repositories.Implementation;
 using Repositories.Interface;
+using System.Reflection;
 using System.Text;
 using Ticketing.BuisinessLayer.Implementation;
 using Ticketing.BuisinessLayer.Interface;
@@ -16,6 +19,7 @@ using Ticketing.Services.Implementation;
 using Ticketing.Services.Interface;
 using Tickiting.Utility;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -24,7 +28,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+options.SwaggerDoc("v1", new OpenApiInfo
+{
+    Version = "v1",
+    Title = "Client Support Ticketing System APIs",
+    Description = "API for managing support tickets on different company products",
+    Contact = new OpenApiContact
+    {
+        Name = "Yara",
+        Email = "yaraxd@gmail.com",
+        Url = new Uri("https://www.linkedin.com/in/yara-al-arbeed-94730b231/")
+    } 
+});
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 //About Connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

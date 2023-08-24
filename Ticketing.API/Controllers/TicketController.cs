@@ -6,6 +6,7 @@ using Ticketing.Services.Interface;
 
 namespace Ticketing.API.Controllers
 {
+    [Route("api/[controller]")]
     public class TicketController : ControllerBase
     {
         private readonly ITicketService _TicketService;
@@ -14,15 +15,24 @@ namespace Ticketing.API.Controllers
         {
             _TicketService = TicketService;
         }
-
-        [HttpGet("Get All Tickets For Specific User")]
+        /// <summary>
+        /// Retrieve all tickets associated with a specific user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTicketListById(int id)
         {
             var ticketResponses = await _TicketService.GetTicketListByIdAsync(id);
             return Ok(ticketResponses);
         }
 
-        [HttpPost("Add Ticket")]
+        /// <summary>
+        /// Add new ticket
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
         public async Task<IActionResult> AddTicket([FromBody] TicketParam param)
         {
 
@@ -30,7 +40,12 @@ namespace Ticketing.API.Controllers
             return Ok(ticket);
         }
 
-        [HttpGet("View Ticket/{id}")]
+        /// <summary>
+        /// "Retrieve details of a specific ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("View/{id}")]
         public async Task<IActionResult> ViewTicket(int id)
         {
 
@@ -38,7 +53,13 @@ namespace Ticketing.API.Controllers
             return Ok(ticket);
         }
 
-        [HttpPut("Edit Ticket/{id}")]
+        /// <summary>
+        /// Update the details of a specific ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="Param"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditTicket(int id, [FromBody] TicketEditParam Param)
         {
             var ticket = await _TicketService.EditTicketAsync(id,Param);

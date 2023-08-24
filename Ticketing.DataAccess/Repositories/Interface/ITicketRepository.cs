@@ -10,6 +10,8 @@ namespace Repositories.Interface
     public interface ITicketRepository:IGenericRepository<Ticket>
     {
         Task<IEnumerable<Ticket>> GetAllByIdAsync(int id);
+        Task<Ticket> ViewTickeAsync(int id);
+
 
 
     }
