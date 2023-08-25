@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ticketing.Models.Models;
 using Ticketing.Models.PocoModels;
 using Ticketing.Services.Interface;
 
 namespace Ticketing.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {

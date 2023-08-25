@@ -17,7 +17,7 @@ namespace Ticketing.DataAccess.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Data Source=DESKTOP-8R42CIQ;Initial Catalog=Client_Support_Ticketing_System;Integrated Security=True");
+            
         }
 
         public DbSet<UserType> UserTypes { get; set; }

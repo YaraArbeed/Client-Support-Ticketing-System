@@ -207,11 +207,9 @@ using (var scope = app.Services.CreateScope())
 //---------------------------------------------------------------------
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+ 
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 
@@ -219,6 +217,7 @@ app.UseCors(builder.Configuration.GetValue<string>("Origins:OriginName"));
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers().RequireAuthorization();
 
 app.MapControllers();
 

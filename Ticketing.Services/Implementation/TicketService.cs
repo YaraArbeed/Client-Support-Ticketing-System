@@ -43,28 +43,29 @@ namespace Ticketing.Services.Implementation
             return tickets.Select(ticket => new TicketResponse { Id = ticket.Id, Title = ticket.Title, AssigneeId = ticket.AssigneeId });
         }
 
-        public async Task<TicketResponse> AddTicketAsync(TicketParam Param)
+        public async Task<TicketAddResponse> AddTicketAsync(TicketParam Param)
         {
             // Check if the Describtion is found
             if (Param.Description == "")
-                return new TicketResponse{ Message = "Describtion is required"};
+                return new TicketAddResponse { Message = "Describtion is required"};
 
             // Create a new Ticket object and populate its properties
             var newTicket = new Ticket
             {
                 Title = Param.Title,
                 Description = Param.Description,
-                StateId = Param.StateId,
-                AssigneeId = Param.AssigneeId,
                 ProductId = Param.ProductId,
                 CustomerId = Param.CustomerId,
-                Attachments = Param.Attachments
+                Attachments = Param.Attachments,
+                AssigneeId=1,
+                StateId=1
+
             };
 
             // Save the new Ticket to the repository
             await _TicketRepositry.AddAsync(newTicket);
 
-            return new TicketResponse { Message = "Ticket added successfully!", Id = newTicket.Id };
+            return new TicketAddResponse { Message = "Ticket added successfully!", Id = newTicket.Id,Title=newTicket.Title };
         }
 
         public async Task<Ticket> ViewTicketAsync(int id)

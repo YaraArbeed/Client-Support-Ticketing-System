@@ -19,6 +19,8 @@ namespace Repositories.Interface
         Task DeleteAsync(T entity);
         Task<User> GetUserByUserNameAsync(string username);
         Task<User> GetUserByPasswordAsync(string password);
+     
+
         Task<T> UpdateAsync(T entity);
         Task SaveAsync();
 

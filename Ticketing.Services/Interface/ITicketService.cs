@@ -11,7 +11,7 @@ namespace Ticketing.Services.Interface
     public interface ITicketService
     {
         Task<IEnumerable<TicketResponse>> GetTicketListByIdAsync(int id);
-        Task<TicketResponse> AddTicketAsync(TicketParam Param);
+        Task<TicketAddResponse> AddTicketAsync(TicketParam Param);
         Task<Ticket> ViewTicketAsync(int id);
         Task<Ticket> EditTicketAsync(int id, TicketEditParam Param);
         Task<IEnumerable<TicketResponse>> GetTicketListAsync();

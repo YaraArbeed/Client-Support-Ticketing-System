@@ -21,7 +21,7 @@ namespace Ticketing.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
 
-        [HttpGet("{id}")]
+        [HttpGet("GetAllTickets/{id}")]
         public async Task<IActionResult> GetSupportTeamTicketList(int id)
         {
             var TicketResponses = await _TicketService.GetSupportTeamTicketListAsync(id);
@@ -35,7 +35,7 @@ namespace Ticketing.API.Controllers
         /// <param name="id"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPut("EditTicket/{id}")]
         public async Task<IActionResult> EditTicketTeamMember(int id, [FromBody] TicketEditTeamMemberParam param)
         {
             var ticket = await _TicketService.EditTicketTeamMemberAsync(id, param);

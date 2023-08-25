@@ -11,6 +11,8 @@ namespace Repositories.Interface
     {
         Task<IEnumerable<Ticket>> GetAllByIdAsync(int id);
         Task<Ticket> ViewTickeAsync(int id);
+       
+
 
 
 

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ticketing.Models.PocoModels;
+using Ticketing.Services.Implementation;
 using Ticketing.Services.Interface;
 
 namespace Ticketing.API.Controllers
@@ -7,17 +9,18 @@ namespace Ticketing.API.Controllers
     public class ManagerController : ControllerBase
     {
         private readonly ITicketService _TicketService;
-
-        public ManagerController(ITicketService TicketService)
+        private readonly IUserService _userService;
+        public ManagerController(ITicketService TicketService, IUserService userService)
         {
             _TicketService = TicketService;
+            _userService = userService;
         }
 
         /// <summary>
         /// Retrieve all tickets
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetTicketList")]
+        [HttpGet("GetAllTickets")]
         public async Task<IActionResult> GetTicketList()
         {
             var TicketResponses = await _TicketService.GetTicketListAsync();
@@ -29,7 +32,7 @@ namespace Ticketing.API.Controllers
         /// Retrieve all Statues
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetStatues")]
+        [HttpGet("GetAllStatues")]
         public async Task<IActionResult> GetStatusList()
         {
             var TicketResponses = await _TicketService.GetStatusListAsync();
@@ -41,7 +44,7 @@ namespace Ticketing.API.Controllers
         /// Retrieve all users of type 'Team Member'
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetTeamMembers/{id}")]
+        [HttpGet("GetAllTeamMembers")]
         public async Task<IActionResult> GetTeamMemberList()
         {
             var UserResponses = await _TicketService.GetTeamMemberListAsync();
@@ -49,12 +52,12 @@ namespace Ticketing.API.Controllers
             return Ok(UserResponses);
         }
         /// <summary>
-        /// Assign a specific ticket to a team member
+        /// Assign a specific ticket to a team member and change statusId
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="ticketId"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("EditTicket")]
         public async Task<IActionResult> EditTicketManager(int asigneeId, int ticketId, int statusId)
         {
             var ticket = await _TicketService.EditTicketManagerAsync(asigneeId, ticketId, statusId);
@@ -65,6 +68,30 @@ namespace Ticketing.API.Controllers
             }
 
             return Ok("Ticket assigned successfully");
+        }
+
+        /// <summary>
+        /// Activate a user by their ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpPost("ActivateUser/{id}")]
+        public async Task<IActionResult> ActivateUser(int id)
+        {
+            var UserActivation= await _userService.ActivateUserAsync(id);
+            return Ok(UserActivation);
+        }
+
+        /// <summary>
+        /// Deactivate a user by their ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet("DeactivateUser/{id}")]
+        public async Task<IActionResult> DeactiveUser(int id)
+        {
+            var UserDeactivation = await _userService.DeactiveUserAsync(id);
+            return Ok(UserDeactivation);
         }
     }
 }

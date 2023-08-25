@@ -11,5 +11,8 @@ namespace Ticketing.Services.Interface
     {
         Task<SignInResponse> LoginAsync(SignInParam Param);
         Task<RegisterResponse> RegisterUserAsync(UserRegistrationParam Param);
+        Task<RegisterResponse> ActivateUserAsync(int id);
+        Task<RegisterResponse> DeactiveUserAsync(int id);
+
     }
 }

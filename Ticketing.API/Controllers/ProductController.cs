@@ -19,7 +19,7 @@ namespace Ticketing.API.Controllers
         /// </summary>
         /// <returns></returns>
 
-        [HttpGet]
+        [HttpGet("GetAllProducts")]
         public async Task<IActionResult> GetProductList()
         {
             var productResponses = await _ProductService.GetProductListAsync();

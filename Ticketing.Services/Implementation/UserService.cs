@@ -1,6 +1,7 @@
 ﻿using Masegat.Repository.Implementation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Repositories.Implementation;
 using Repositories.Interface;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace Ticketing.Services.Implementation
             {
                 return new SignInResponse { Message="UserName isn't Found"};
             }
+          
 
             // Verify the password
             bool isPasswordValid = VerifyPassword(Param.Password, user.Password);
@@ -44,6 +46,11 @@ namespace Ticketing.Services.Implementation
             if (!isPasswordValid)
             {
                return new SignInResponse { Message = "Invalid UserName or Password" };
+            }
+
+            if (user.IsActive == false)
+            {
+                return new SignInResponse { Message = "This user isn't allowed to enter the system" };
             }
 
             // Generate and return a token (you can use a JWT library or any other token generation mechanism)
@@ -86,6 +93,36 @@ namespace Ticketing.Services.Implementation
 
 
 
+        }
+
+
+        public async Task<RegisterResponse> ActivateUserAsync(int userId)
+        {
+            User user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new RegisterResponse { Message = "UserId isn't Found" };
+            }
+
+            user.IsActive = true;
+            await _userRepository.SaveAsync();
+            return new RegisterResponse { Message = "The user activation was successfully completed" };
+
+        }
+        public async Task<RegisterResponse> DeactiveUserAsync(int id)
+        {
+            User user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                return new RegisterResponse { Message = "UserId isn't Found" };
+            }
+
+            user.IsActive = false;
+            await _userRepository.SaveAsync();
+
+            return new RegisterResponse { Message = "The user deactivation was successfully completed" };
         }
         // Helper method to verify the password
         private bool VerifyPassword(string enteredPassword, string storedPassword)

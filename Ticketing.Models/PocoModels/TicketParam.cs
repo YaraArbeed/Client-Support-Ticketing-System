@@ -10,8 +10,6 @@ namespace Ticketing.Models.PocoModels
     {
        public string Title { get; set; }
         public string Description { get; set; }
-       public int StateId { get; set; }
-        public int AssigneeId { get; set; }
         public int ProductId { get; set; }
         public int CustomerId { get; set; }
         public string Attachments { get; set; }
