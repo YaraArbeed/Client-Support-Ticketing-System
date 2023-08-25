@@ -57,7 +57,7 @@ namespace Ticketing.Services.Implementation
                 ProductId = Param.ProductId,
                 CustomerId = Param.CustomerId,
                 Attachments = Param.Attachments,
-                AssigneeId=1,
+                AssigneeId=null,
                 StateId=1
 
             };
@@ -152,7 +152,59 @@ namespace Ticketing.Services.Implementation
             {
                 return new List<UserResponse> { new UserResponse { Message = "There are no users of type Team Member" } };
             }
-            return users.Select(User => new UserResponse { Id = User.Id,RoleId=User.RoleId, UserName = User.UserName,MobileNumber=User.MobileNumber,Email=User.Email });
+            List<UserResponse> userResponses = new List<UserResponse>();
+
+            foreach (var user in users)
+            {
+                IEnumerable<Ticket> numberOfTickets = await _TicketRepositry.GetAllByIdTeamMemberAsync(user.Id);
+                int ticketCount = numberOfTickets.Count();
+
+                var userResponse = new UserResponse
+                {
+                    Id = user.Id,
+                    RoleId = user.RoleId,
+                    UserName = user.UserName,
+                    Name = user.Name,
+                    MobileNumber = user.MobileNumber,
+                    Email = user.Email,
+                    NumberOfTickets = ticketCount
+                };
+
+                userResponses.Add(userResponse);
+            }
+
+            return userResponses;
+        }
+        public async Task<IEnumerable<UserResponse>> GetClientListAsync()
+        {
+            IEnumerable<User> users = await _UserRepository.GetClientsAsync();
+            
+            if (users.Count() == 0)
+            {
+                return new List<UserResponse> { new UserResponse { Message = "There are no users of type Client" } };
+            }
+            List<UserResponse> userResponses = new List<UserResponse>();
+
+            foreach (var user in users)
+            {
+                IEnumerable<Ticket> numberOfTickets = await _TicketRepositry.GetAllByIdAsync(user.Id);
+                int ticketCount = numberOfTickets.Count();
+
+                var userResponse = new UserResponse
+                {
+                    Id = user.Id,
+                    RoleId = user.RoleId,
+                    UserName = user.UserName,
+                    Name = user.Name,
+                    MobileNumber = user.MobileNumber,
+                    Email = user.Email,
+                    NumberOfTickets = ticketCount
+                };
+
+                userResponses.Add(userResponse);
+            }
+
+            return userResponses;
         }
 
         public async Task<bool> EditTicketManagerAsync(int asigneeId, int ticketId,int statusId)

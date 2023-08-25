@@ -51,6 +51,19 @@ namespace Ticketing.API.Controllers
 
             return Ok(UserResponses);
         }
+
+
+        /// <summary>
+        /// Retrieve all users of type 'Client'
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetAllClients")]
+        public async Task<IActionResult> GetClientList()
+        {
+            var UserResponses = await _TicketService.GetClientListAsync();
+
+            return Ok(UserResponses);
+        }
         /// <summary>
         /// Assign a specific ticket to a team member and change statusId
         /// </summary>

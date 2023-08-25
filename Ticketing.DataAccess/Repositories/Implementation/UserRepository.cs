@@ -22,5 +22,11 @@ namespace Masegat.Repository.Implementation
                .Where(user => user.RoleId == 3)
         .ToListAsync();
         }
+
+        public async Task<IEnumerable<User>> GetClientsAsync() { 
+            return await _Context.Set<User>()
+               .Where(user => user.RoleId == 2)
+        .ToListAsync();
+        }
     }
 }

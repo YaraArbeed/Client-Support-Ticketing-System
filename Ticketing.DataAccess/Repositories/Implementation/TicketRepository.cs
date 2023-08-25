@@ -22,6 +22,14 @@ namespace Repositories.Implementation
                 .Where(ticket => ticket.CustomerId == id)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Ticket>> GetAllByIdTeamMemberAsync(int id)
+        {
+            return await _Context.Set<Ticket>()
+                .Where(ticket => ticket.AssigneeId == id)
+                .ToListAsync();
+        }
+        
         public async Task<Ticket> ViewTickeAsync(int id)
         {
             return await _Context.Tickets

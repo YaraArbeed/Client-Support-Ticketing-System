@@ -9,5 +9,6 @@ namespace Repositories.Interface
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<IEnumerable<User>> GetTeamMembersAsync();
+        Task<IEnumerable<User>> GetClientsAsync();
     }
 }

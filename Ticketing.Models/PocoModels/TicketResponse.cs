@@ -10,7 +10,7 @@ namespace Ticketing.Models.PocoModels
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int AssigneeId { get; set; }
+        public int? AssigneeId { get; set; }
         public string Message { get; set; }
     }
 }
