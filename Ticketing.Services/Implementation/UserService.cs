@@ -94,8 +94,6 @@ namespace Ticketing.Services.Implementation
 
 
         }
-
-
         public async Task<RegisterResponse> ActivateUserAsync(int userId)
         {
             User user = await _userRepository.GetByIdAsync(userId);

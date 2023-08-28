@@ -13,7 +13,7 @@ namespace Ticketing.Models.PocoModels
         public string Audience { get; set; }
         public string Subject { get; set; }
         public int TokenValidityInMinutes { get; set; }
-        public int RefreshTokenValidityInDays { get; set; }
+      
 
     }
 }

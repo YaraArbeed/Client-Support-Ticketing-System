@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Ticketing.DataAccess\Ticketing.DataAccess.csproj" />
     <ProjectReference Include="..\Ticketing.Models\Ticketing.Models.csproj" />
     <ProjectReference Include="..\Ticketing.Services\Ticketing.Services.csproj" />
+    <ProjectReference Include="..\Tickiting.Utility\Tickiting.Utility.csproj" />
   </ItemGroup>
 
 </Project>

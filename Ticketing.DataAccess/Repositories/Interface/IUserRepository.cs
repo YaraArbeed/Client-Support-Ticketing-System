@@ -8,6 +8,8 @@ namespace Repositories.Interface
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User> GetUserByUserNameAsync(string username);
+        Task<User> GetUserByPasswordAsync(string password);
         Task<IEnumerable<User>> GetTeamMembersAsync();
         Task<IEnumerable<User>> GetClientsAsync();
     }

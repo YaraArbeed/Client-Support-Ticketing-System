@@ -21,8 +21,5 @@ namespace Ticketing.Services.Interface
         Task<bool> EditTicketManagerAsync(int asigneeId, int ticketId, int statusId);
         Task<IEnumerable<TicketResponse>> GetSupportTeamTicketListAsync(int id);
         Task<Ticket> EditTicketTeamMemberAsync(int id, TicketEditTeamMemberParam param);
-
-
-
     }
 }

@@ -1,0 +1,23 @@
+UserType (One) to User (Many): 
+Each user can have only one user type,
+ but a user type can be assigned to multiple users. 
+This is a one-to-many relationship.
+----------------------------------------------------
+Products (One) to Ticket (Many): Each product can have multiple tickets,
+ but each ticket belongs to only one product.
+ This is a one-to-many relationship.
+------------------------------------------------------------------------
+User (One) to Ticket (Many): Each user can have multiple tickets,
+ but each ticket belongs to only one user. 
+This is a one-to-many relationship.
+-------------------------------------------------------------------
+Status (One) to Ticket (Many): Each ticket can have only one status, 
+but a status can be associated with multiple tickets. 
+This is a one-to-many relationship. 
+The Status table likely contains different statuses (e.g., "Open," "In Progress," "Closed") 
+that can be assigned to tickets.
+----------------------------------------------------------------------
+Ticket (One) to TicketComments (Many): Each ticket can have multiple comments, 
+but each comment belongs to only one ticket.
+ This is a one-to-many relationship. 
+The TicketComments table stores comments made on specific tickets.

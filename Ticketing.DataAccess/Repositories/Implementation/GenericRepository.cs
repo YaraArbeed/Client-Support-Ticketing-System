@@ -51,18 +51,6 @@ namespace Repositories.Implementation
             await _Context.SaveChangesAsync();
         }
 
-        public async Task<User> GetUserByUserNameAsync(string username)
-        {
-            return await _Context.Users.FirstOrDefaultAsync(u => u.UserName == username|| u.Email== username|| u.MobileNumber == username);
-        }
-
-        public async Task<User> GetUserByPasswordAsync(string password)
-        {
-            return await _Context.Users.FirstOrDefaultAsync(u => u.Password == password);
-        }
-
-        
-
-
+      
     }
 }

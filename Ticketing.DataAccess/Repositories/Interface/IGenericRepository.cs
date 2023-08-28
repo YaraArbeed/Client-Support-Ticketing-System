@@ -12,21 +12,10 @@ namespace Repositories.Interface
     public interface IGenericRepository<T> where T : class
     {
         Task<T> GetByIdAsync(int id);
-
         Task<IEnumerable<T>> GetAllAsync();
-
         Task AddAsync(T entity);
-        Task DeleteAsync(T entity);
-        Task<User> GetUserByUserNameAsync(string username);
-        Task<User> GetUserByPasswordAsync(string password);
-     
-
+        Task DeleteAsync(T entity); 
         Task<T> UpdateAsync(T entity);
         Task SaveAsync();
-
-
-
-
-
     }
 }

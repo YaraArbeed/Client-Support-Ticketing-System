@@ -24,6 +24,7 @@ namespace Ticketing.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] SignInParam param)
         {
+             
             var token = await _userService.LoginAsync(param);
 
             if (token == null)

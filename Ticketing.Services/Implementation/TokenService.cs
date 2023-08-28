@@ -34,15 +34,11 @@ namespace Ticketing.BuisinessLayer.Implementation
             return token;
         }
 
-
-
         #region private Methods
         private IEnumerable<Claim> GetClaims(User user)
         {
             try
             {
-                DateTime RefreshTokenExpiryTime = DateTime.Now.AddDays(_jwtOptions.RefreshTokenValidityInDays);
-
                 var claims = new List<Claim>() {
                         new Claim(JwtRegisteredClaimNames.Sub, _jwtOptions.Subject),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -50,9 +46,7 @@ namespace Ticketing.BuisinessLayer.Implementation
                         new Claim("UserId", user.Id.ToString()),
                         new Claim("DisplayName", user.Name),
                         new Claim("UserName", user.UserName),
-                        new Claim("Email", user.Email),
-                        new Claim("RefreshTokenExpiryTime", RefreshTokenExpiryTime.ToString("yyyy-MM-dd HH:mm:ss"))
-
+                        new Claim("Email", user.Email)
                     };
                 return claims;
             }

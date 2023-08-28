@@ -9,6 +9,7 @@ using Repositories.Implementation;
 using Repositories.Interface;
 using System.Reflection;
 using System.Text;
+using Ticketing.API.GlobalExceptionHandler;
 using Ticketing.BuisinessLayer.Implementation;
 using Ticketing.BuisinessLayer.Interface;
 using Ticketing.DataAccess.Models;
@@ -78,26 +79,24 @@ options.UseSqlServer(connectionString));
 
 //About Generic Repository 
 builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-//About User Service
+//About User Service&User Repository
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-
 builder.Services.AddTransient<IUserService, UserService>();
 //About Ticket Rpositry
 builder.Services.AddTransient<ITicketRepository, TicketRepository>();
 //About Product Rpositry
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
-//About State Rpositry
+//About Status Rpositry
 builder.Services.AddTransient<IStateRepository, StateRepository>();
-
 //About Ticket Service
 builder.Services.AddTransient<ITicketService, TicketService>();
 //About Product Service
 builder.Services.AddTransient<IProductService, ProductService>();
-
+//About Token Service
 builder.Services.AddTransient<ITokenService, TokenService>();
-
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 //About token 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -159,7 +158,7 @@ using (var scope = app.Services.CreateScope())
         // Save changes to the UserType table
         dbContext.SaveChanges();
     }
-    //Insert Data into State tabel
+    //Insert Data into Status tabel
     if (!dbContext.States.Any())
     {
         dbContext.States.AddRange(
@@ -169,7 +168,6 @@ using (var scope = app.Services.CreateScope())
         new State { Name = "In Progress" },
         new State { Name = "Done" },
         new State { Name = "Closed" }
-
 
     );
         // Save changes to the State table
@@ -231,9 +229,9 @@ using (var scope = app.Services.CreateScope())
 
 // Configure the HTTP request pipeline.
  
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
+ app.UseSwagger();
+ app.UseSwaggerUI();
+app.AddGlobalErrorHandler();
 app.UseHttpsRedirection();
 
 app.UseCors(builder.Configuration.GetValue<string>("Origins:OriginName"));
