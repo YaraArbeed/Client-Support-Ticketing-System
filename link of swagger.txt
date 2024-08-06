@@ -1,1 +1,0 @@
-http://16.16.56.214:5152/swagger/index.html
